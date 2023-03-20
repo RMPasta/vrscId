@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { Offer } = require('../db/models');
+const { Listing } = require('../db/models');
 
 router.get('/', async (req, res) => {
 
@@ -19,8 +19,8 @@ router.get('/', async (req, res) => {
 
 
     try {
-        const offers = await Offer.findAll(query)
-        res.json(offers);
+        const listings = await Listing.findAll(query)
+        res.json(listings);
     } catch (err) {
         console.log(err)
         res.json(err);
@@ -32,7 +32,7 @@ router.post('/new', async (req, res) => {
     const { vrscId, price, blockExpiry } = req.body;
 
   try {
-    const newId = await Offer.create({
+    const newId = await Listing.create({
         vrscId,
         price,
         blockExpiry
