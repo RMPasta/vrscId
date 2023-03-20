@@ -14,11 +14,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extend: true }));
 
-const db = require('./db/models');
-const { Offer, Listing } = db;
+const { Offer, Listing } = require('./db/models');
 
 app.get('/', async (req, res) => {
-    res.send('hi')
+    res.json('Server is running')
 })
 app.get('/offers', async (req, res) => {
     try {
