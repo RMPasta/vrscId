@@ -6,7 +6,7 @@ import time
 # Define a function to call the subprocess and update the CSV files
 def update_listings():
     # Call the subprocess and get the JSON object response
-    response = subprocess.check_output(f'run ./verus getoffers "VRSC" true false',shell=True)
+    response = subprocess.check_output(f'./verus getoffers "VRSC" true false')
 
     # Parse the JSON response into a Python object
     data = json.loads(response)
