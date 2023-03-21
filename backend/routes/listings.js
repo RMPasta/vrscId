@@ -1,21 +1,47 @@
 const express = require('express');
 const router = express.Router();
 
-const { Listing } = require('../db/models');
+const { Listing, Sequelize } = require('../db/models');
 
 router.get('/', async (req, res) => {
 
-    let { vrscId, price, blockExpiry, page, size } = req.query;
+    let { id, length, price, blockExpiry, page, size, sort } = req.query;
 
     let query = {
         where: {}
     }
-
+    //page and amount of ids shown
     if (!page) page = 1;
     if (!size) size = 20;
     let offset = size * (page - 1);
     query.limit = size;
     query.offset = offset;
+
+    //filter by price
+    if (price === 'asc') {
+      query.order = [['price', 'ASC']]
+    } else if (price === 'desc') {
+      query.order = [['price', 'DESC']]
+    }
+    //filter by id number
+    if (id === 'asc') {
+      query.order = [['id', 'ASC']]
+    } else if (id === 'desc') {
+      query.order = [['id', 'DESC']]
+    }
+    //filter by length
+    length = parseInt(length)
+    if (length > 0) {
+      query.where = Sequelize.where(Sequelize.fn('LENGTH', Sequelize.col('vrscId')), length)
+    }
+    //filter by block
+    if (blockExpiry === 'asc') {
+      query.order = [['blockExpiry', 'ASC']]
+    } else if (blockExpiry === 'desc') {
+      query.order = [['blockExpiry', 'DESC']]
+    }
+
+
 
 
     try {
